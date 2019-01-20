@@ -30,6 +30,11 @@ class MessagesController < ApplicationController
     render json: { success: false }
   end
 
+  def inbox
+    move_email = Services::MoveMessage.new(params, Tag::Name::DRAFT)
+    return render json: { success: true } if move_email.process
+    render json: { success: false }
+  end
 
   def mark
     mark_message = Services::MarkMessage.new(params)
